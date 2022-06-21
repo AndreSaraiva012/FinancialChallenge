@@ -1,0 +1,65 @@
+version: '3.4'
+networks:
+  backend:
+services:
+  bankrecordapi:
+    image: ${DOCKER_REGISTRY-}bankrecordapi
+    build:
+      context: .
+      dockerfile: BankRecord/Dockerfile
+    ports:
+    - "8012:80"
+    - "8013:443"
+    depends_on:
+    - sqlconnection
+    networks:
+    - backend
+  buyrequestsapi:
+    image: ${DOCKER_REGISTRY-}buyrequestsapi
+    build:
+      context: .
+      dockerfile: BuyRequest/Dockerfile
+    ports:
+    - "8024:80"
+    - "8025:443"
+    depends_on:
+    - sqlconnection
+    networks:
+    - backend
+  documentapi:
+    image: ${DOCKER_REGISTRY-}documentapi
+    build:
+      context: .
+      dockerfile: Document/Dockerfile
+    ports:
+    - "8036:80"
+    - "8037:443"
+    depends_on:
+    - sqlconnection
+    networks:
+    - backend
+
+  productapi:
+    image: ${DOCKER_REGISTRY-}productapi
+    build:
+      context: .
+      dockerfile: ProductAPI/Dockerfile
+    ports:
+    - "8048:80"
+    - "8049:443"
+    depends_on:
+    - sqlconnection
+    networks:
+    - backend
+  sqlconnection:
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        container_name: sqlconnection
+        environment:
+         - SA_PASSWORD=Andre2022.
+         - ACCEPT_EULA=Y
+        volumes:
+         - C:\Dados\volumes\mssql:/var/opt/mssql/data
+        ports:
+         - "1433:1433"
+        networks:
+         - backend

@@ -7,10 +7,7 @@ namespace DataBuyRequest
 {
     public class BuyRequestContext : DataContext
     {
-        public BuyRequestContext(DbContextOptions<BuyRequestContext> options) : base(options)
-        {
-
-        }
+        public BuyRequestContext(DbContextOptions<BuyRequestContext> options) : base(options) { }
 
         public DbSet<BuyRequest> Requests { get; set; }
         public DbSet<ProductRequest> Products { get; set; }
